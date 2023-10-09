@@ -11,6 +11,6 @@ all:
     ansible_executable: /bin/bash
   hosts:
     armhf:
-      ansible_host: /mnt/cassys_armhf
+      ansible_host: /mnt/armhf_cassys
     arm64:
-      ansible_host: /mnt/cassys_arm64
+      ansible_host: /mnt/arm64_cassys

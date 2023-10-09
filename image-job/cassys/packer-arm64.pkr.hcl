@@ -7,13 +7,13 @@ variable "host" {
 
 # locals block : https://developer.hashicorp.com/packer/docs/templates/hcl_templates/blocks/locals
 locals {
-  iso_url         = "file:///build/output-arm-image/cache_02_arm64.img"
-  mount_path      = "/mnt/cassys_arm64"
-  output_filename = "/build/output-arm-image/cassys_arm64.img"
+  iso_url         = "file:///build/output-arm-image/arm64_cache_02.img"
+  mount_path      = "/mnt/arm64_cassys"
+  output_filename = "/build/output-arm-image/arm64_cassys.img"
 }
 
 # source block : https://developer.hashicorp.com/packer/docs/templates/hcl_templates/blocks/source
-source "arm-image" "cassys_arm64" {
+source "arm-image" "arm64_cassys" {
   iso_checksum         = "none"
   iso_target_extension = "img.xz"
   iso_url              = local.iso_url
@@ -26,7 +26,7 @@ source "arm-image" "cassys_arm64" {
 
 # build block : https://developer.hashicorp.com/packer/docs/templates/hcl_templates/blocks/build
 build {
-  sources = ["source.arm-image.cassys_arm64"]
+  sources = ["source.arm-image.arm64_cassys"]
 
   # provisioner block : https://developer.hashicorp.com/packer/docs/templates/hcl_templates/blocks/build/provisioner
   provisioner "shell-local" {

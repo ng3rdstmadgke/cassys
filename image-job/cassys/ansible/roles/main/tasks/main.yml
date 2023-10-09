@@ -104,14 +104,14 @@
 ##########################################################
 # goofys の設定
 ##########################################################
-- name: Copy /usr/local/bin/goofys
-  copy:
-    src: "files/goofys"
-    dest: "/usr/local/bin/goofys"
-    owner: root
-    group: root
-    mode: '0755'
-    backup: yes
+#- name: Copy /usr/local/bin/goofys
+#  copy:
+#    src: "files/goofys-arm64"
+#    dest: "/usr/local/bin/goofys"
+#    owner: root
+#    group: root
+#    mode: '0755'
+#    backup: yes
 
 - name: Deploy goofys-mount.service
   template:

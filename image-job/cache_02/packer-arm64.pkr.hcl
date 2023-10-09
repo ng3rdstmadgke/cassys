@@ -3,17 +3,17 @@
 # variable block : https://developer.hashicorp.com/packer/docs/templates/hcl_templates/blocks/variable
 variable "img_mount_path" {
   type    = string
-  default = "/mnt/cache_02_arm64"
+  default = "/mnt/arm64_cache_02"
 }
 
 # locals block : https://developer.hashicorp.com/packer/docs/templates/hcl_templates/blocks/locals
 locals {
-  iso_url         = "file:///build/output-arm-image/cache_01_arm64.img"
-  output_filename = "/build/output-arm-image/cache_02_arm64.img"
+  iso_url         = "file:///build/output-arm-image/arm64_cache_01.img"
+  output_filename = "/build/output-arm-image/arm64_cache_02.img"
 }
 
 # source block : https://developer.hashicorp.com/packer/docs/templates/hcl_templates/blocks/source
-source "arm-image" "cache_02_arm64" {
+source "arm-image" "arm64_cache_02" {
   iso_checksum         = "none"
   iso_target_extension = "img.xz"
   iso_url              = local.iso_url
@@ -26,7 +26,7 @@ source "arm-image" "cache_02_arm64" {
 
 # build block : https://developer.hashicorp.com/packer/docs/templates/hcl_templates/blocks/build
 build {
-  sources = ["source.arm-image.cache_02_arm64"]
+  sources = ["source.arm-image.arm64_cache_02"]
 
   # provisioner block : https://developer.hashicorp.com/packer/docs/templates/hcl_templates/blocks/build/provisioner
   provisioner "shell" {
