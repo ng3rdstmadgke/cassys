@@ -2,10 +2,16 @@
 
 function usage {
 cat >&2 <<EOS
-イメージ生成ジョブを実行するコンテナにログインするコマンド  (デバッグ用)
+イメージ生成ジョブ実行コマンド
 
 [usage]
- $0
+ $0 ARCH
+
+[args]
+  ARCH: arm64 | armhf
+    arm64 : 64bit 用のイメージ
+    armhf : 32bit 用のイメージ
+
 
 [options]
  -h | --help:
@@ -27,7 +33,13 @@ while [ "$#" != 0 ]; do
   shift
 done
 
-[ "${#args[@]}" != 0 ] && usage
+[ "${#args[@]}" != 1 ] && usage
+ARCH="${args[0]}"
+
+if [ "$ARCH" != "arm64" -a "$ARCH" != "armhf" ]; then
+  echo "ARCH には arm64 または armhf を指定してください" >&2
+  exit 1
+fi
 
 set -e
 cd $PROJECT_ROOT
@@ -57,4 +69,4 @@ docker run \
     -v $PROJECT_ROOT/image-job:/image-job \
     -e PACKER_CACHE_DIR=/build/packer_cache \
     $APP_NAME/image-job:latest \
-    /bin/bash
+    make build-$ARCH
