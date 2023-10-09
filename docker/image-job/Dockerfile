@@ -34,10 +34,6 @@ RUN wget https://releases.hashicorp.com/packer/${PACKER_VERSION}/packer_${PACKER
   unzip /tmp/packer.zip -d /bin && \
   rm /tmp/packer.zip
 
-# ラズパイイメージ
-RUN wget -O /raspios-bullseye-arm64-lite.img.xz "https://downloads.raspberrypi.org/raspios_lite_arm64/images/raspios_lite_arm64-2023-05-03/2023-05-03-raspios-bullseye-arm64-lite.img.xz"
-RUN wget -O /raspios-bullseye-armhf-lite.img.xz "https://downloads.raspberrypi.org/raspios_lite_armhf/images/raspios_lite_armhf-2023-05-03/2023-05-03-raspios-bullseye-armhf-lite.img.xz"
-
 COPY image-job /image-job
 COPY docker/image-job/packer.sh /packer.sh
 COPY docker/image-job/.tmux.conf /root/.tmux.conf

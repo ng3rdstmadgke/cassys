@@ -8,13 +8,13 @@ variable "img_mount_path" {
 
 # locals block : https://developer.hashicorp.com/packer/docs/templates/hcl_templates/blocks/locals
 locals {
-  iso_url         = "file:///raspios-bullseye-armhf-lite.img.xz"
+  iso_url         = "https://downloads.raspberrypi.org/raspios_lite_armhf/images/raspios_lite_armhf-2023-05-03/2023-05-03-raspios-bullseye-armhf-lite.img.xz"
   output_filename = "/build/output-arm-image/armhf_cache_01.img"
 }
 
 # source block : https://developer.hashicorp.com/packer/docs/templates/hcl_templates/blocks/source
 source "arm-image" "armhf_cache_01" {
-  iso_checksum         = "none"
+  iso_checksum         = "b5e3a1d984a7eaa402a6e078d707b506b962f6804d331dcc0daa61debae3a19a"
   iso_target_extension = "img.xz"
   iso_url              = local.iso_url
   mount_path           = var.img_mount_path

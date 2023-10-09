@@ -8,6 +8,7 @@ variable "img_mount_path" {
 
 # locals block : https://developer.hashicorp.com/packer/docs/templates/hcl_templates/blocks/locals
 locals {
+  # RaspberryPi OS: https://www.raspberrypi.com/software/operating-systems/
   iso_url         = "https://downloads.raspberrypi.org/raspios_lite_arm64/images/raspios_lite_arm64-2023-05-03/2023-05-03-raspios-bullseye-arm64-lite.img.xz"
   output_filename = "/build/output-arm-image/arm64_cache_01.img"
 }
