@@ -1,0 +1,16 @@
+---
+# Hosts in multiple groups | Ansible Doc:
+#   https://docs.ansible.com/ansible/latest/user_guide/intro_inventory.html#hosts-in-multiple-groups
+# インベントリーの基本:
+#   https://zenn.dev/y_mrok/books/ansible-no-tsukaikata/viewer/chapter5
+all:
+  vars:  # グループ内で共通の設定を定義
+    # community.general.chroot connection | Ansible Doc:
+    #   https://docs.ansible.com/ansible/latest/collections/community/general/chroot_connection.html#ansible-collections-community-general-chroot-connection
+    ansible_chroot_exe: chroot
+    ansible_executable: /bin/bash
+  hosts:
+    armhf:
+      ansible_host: /mnt/cassys_armhf
+    arm64:
+      ansible_host: /mnt/cassys_arm64

@@ -1,0 +1,154 @@
+---
+##########################################################
+# ツール類のインストール
+##########################################################
+# https://docs.ansible.com/ansible/latest/collections/ansible/builtin/pip_module.html
+- name: pexpect install
+  ansible.builtin.pip:
+    name:
+      - pexpect~=4.8.0
+
+##########################################################
+# 初回起動時設定ファイル
+##########################################################
+#- name: firstrun.sh
+#  template:
+#    src: "{{item.src}}"
+#    dest: "{{item.dest}}"
+#    owner: root
+#    group: root
+#    mode: "0755"
+#    backup: yes
+#  loop:
+#    - src: templates/firstrun.sh.j2
+#      dest: /boot/firstrun.sh
+
+##########################################################
+# ロケール設定
+##########################################################
+- name: Set localy
+  shell:
+    cmd: |
+      set -e
+      echo 'en_US.UTF-8 UTF-8' >> /etc/locale.gen
+      locale-gen
+      update-locale LANG=en_US.UTF-8
+
+##########################################################
+# カーネルパラメータの設定
+#  - ファイルの監視数制限拡張
+#  - ipv6 無効化
+##########################################################
+- name: Copy /etc/sysctl.d/custom.conf
+  copy:
+    src: "files/sysctl/custom.conf"
+    dest: "/etc/sysctl.d/custom.conf"
+    owner: root
+    group: root
+    mode: '0644'
+    backup: yes
+
+##########################################################
+# samba の設定
+##########################################################
+# https://docs.ansible.com/ansible/latest/collections/ansible/builtin/user_module.html
+- name: Create smb user
+  user:
+    name: "{{smb.user}}"
+    password: "{{ smb.password | password_hash('sha512') }}"
+    uid: 1040
+    create_home: yes
+    shell: /usr/sbin/nologin
+
+- name: Create /share
+  file:
+    path: /share
+    state: directory
+    owner: "{{smb.user}}"
+    group: "{{smb.user}}"
+    mode: '0777'
+
+- name: Create /share/BUCKET_NAME
+  file:
+    path: "/share/{{mnt_bucket}}"
+    state: directory
+    owner: "{{smb.user}}"
+    group: "{{smb.user}}"
+    mode: '0777'
+
+- name: Deploy smb config
+  template:
+    src: "{{item.src}}"
+    dest: "{{item.dest}}"
+    owner: root
+    group: root
+    mode: "0644"
+    backup: yes
+  loop:
+    - src: templates/smb/smb.conf.j2
+      dest: /etc/samba/smb.conf
+
+# https://docs.ansible.com/ansible/latest/collections/ansible/builtin/expect_module.html
+- name: Set smb user password
+  expect:
+    command: pdbedit -a -u {{smb.user}}
+    responses:
+      "new password": "{{smb.password}}"
+      "retype new password": "{{smb.password}}"
+
+- name: Enable smbd.service
+  systemd:
+    name: smbd.service
+    enabled: yes
+
+##########################################################
+# goofys の設定
+##########################################################
+- name: Deploy goofys-mount.service
+  template:
+    src: "{{item.src}}"
+    dest: "{{item.dest}}"
+    owner: root
+    group: root
+    mode: "{{item.mode}}"
+    backup: yes
+  loop:
+    - src: templates/goofys/goofys-mount.service.j2
+      dest: /etc/systemd/system/goofys-mount.service
+      mode: '0640'
+    - src: templates/goofys/goofys-mount-env.j2
+      dest: /etc/default/goofys-mount-env
+      mode: '0640'
+
+- name: Enable goofys
+  systemd:
+    name: goofys-mount.service
+    enabled: yes
+
+##########################################################
+# dhcpcd の設定
+# dhcpcd x wpa_supplicant : https://www.asrobot.me/entry/2019/01/10/184036/
+##########################################################
+- name: Deploy dhcpcd config
+  template:
+    src: "{{item.src}}"
+    dest: "{{item.dest}}"
+    owner: root
+    group: root
+    mode: '0644'
+    backup: yes
+  loop:
+    - src: templates/dhcpcd/dhcpcd.conf.j2
+      dest: /etc/dhcpcd.conf
+
+##########################################################
+# 起動時に実行するスクリプト
+##########################################################
+- name: Copy /etc/rc.local
+  template:
+    src: templates/rc.local.j2
+    dest: /etc/rc.local
+    owner: root
+    group: root
+    mode: '0755'
+    backup: yes

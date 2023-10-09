@@ -1,0 +1,7 @@
+---
+- name: cassys
+  hosts: all
+  become: yes
+  roles:
+    - role: main
+      tags: [main, all]

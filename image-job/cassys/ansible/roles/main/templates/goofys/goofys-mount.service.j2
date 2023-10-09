@@ -1,0 +1,16 @@
+[Unit]
+Description=Mount S3 bucket.
+After=network.target
+StartLimitIntervalSec=600
+StartLimitBurst=100
+
+[Service]
+EnvironmentFile=/etc/default/goofys-mount-env
+User=root
+Type=simple
+Restart=always
+ExecStart=/usr/local/bin/goofys -f --region ap-northeast-1 --uid 1040 --gid 1040 -o allow_other {{mnt_bucket}} /share/{{mnt_bucket}}
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

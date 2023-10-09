@@ -1,0 +1,4 @@
+**/.build
+**/.venv
+**/host_vars/arm64.yml
+**/host_vars/armhf.yml
