@@ -18,9 +18,11 @@ if [ "$_IP" ]; then
 fi
 
 # --- --- --- custom --- --- ---
+# ネットワークがつながらない場合にシリアル接続でデバッグできるようにする
 raspi-config nonint do_serial 0
-raspi-config nonint do_spi 0
-raspi-config nonint do_i2c 0
+# オートログインを無効化
 raspi-config nonint do_boot_behaviour B1
+#raspi-config nonint do_spi 0
+#raspi-config nonint do_i2c 0
 # --- --- --- custom --- --- ---
 exit 0
