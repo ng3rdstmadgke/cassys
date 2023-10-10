@@ -1,4 +1,6 @@
 **/.build
 **/.venv
-**/host_vars/arm64.yml
-**/host_vars/armhf.yml
+**/host_vars/*.yml
+!**/host_vars/sample.yml
+setting/*.yml
+!setting/sample.yml

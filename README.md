@@ -8,13 +8,13 @@ Cloud Attach Storage System
 
 ```bash
 # 設定ファイルをコピー
-cp image-job/cassys/ansible/host_vars/sample.yml image-job/cassys/ansible/host_vars/arm64.yml
+cp setting/sample.yml setting/my-setting.yml
 
 # 設定ファイルの編集
-vim image-job/cassys/ansible/host_vars/arm64.yml
+vim setting/my-setting.yml
 
 # イメージ生成
-./bin/build.sh arm64
+./bin/build.sh arm64 setting/my-setting.yml
 
 # 出来上がったイメージ
 ls .build/output-arm-image/arm64_cassys.img.xz
@@ -24,13 +24,13 @@ ls .build/output-arm-image/arm64_cassys.img.xz
 
 ```bash
 # 設定ファイルをコピー
-cp image-job/cassys/ansible/host_vars/sample.yml image-job/cassys/ansible/host_vars/armhf.yml
+cp setting/sample.yml setting/my-setting.yml
 
 # 設定ファイルの編集
-vim image-job/cassys/ansible/host_vars/arm64.yml
+vim setting/my-setting.yml
 
 # イメージ生成
-./bin/build.sh armhf
+./bin/build.sh armhf setting/my-setting.yml
 
 # 完成したイメージ
 ls .build/output-arm-image/armhf_cassys.img.xz

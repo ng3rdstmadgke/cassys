@@ -5,17 +5,24 @@ cat >&2 <<EOS
 イメージ生成ジョブ実行コマンド
 
 [usage]
- $0 ARCH
+ $0 ARCH SETTING_FILE
 
 [args]
-  ARCH: arm64 | armhf
-    arm64 : 64bit 用のイメージ
-    armhf : 32bit 用のイメージ
-
+  ARCH:
+    OS のアーキテクチャ
+    - arm64 : 64bit 用のイメージ
+    - armhf : 32bit 用のイメージ
+  SETTING_FILE:
+    イメージ生成ジョブの設定ファイル
 
 [options]
  -h | --help:
    ヘルプを表示
+
+[example]
+  # arm64 用のイメージを生成する
+  $0 arm64 setting/my-setting.yml
+
 EOS
 exit 1
 }
@@ -33,15 +40,25 @@ while [ "$#" != 0 ]; do
   shift
 done
 
-[ "${#args[@]}" != 1 ] && usage
+[ "${#args[@]}" != 2 ] && usage
 ARCH="${args[0]}"
+SETTING_FILE="${args[1]}"
 
 if [ "$ARCH" != "arm64" -a "$ARCH" != "armhf" ]; then
   echo "ARCH には arm64 または armhf を指定してください" >&2
   exit 1
 fi
 
+if [ ! -f "$SETTING_FILE" ]; then
+  echo "設定ファイル $SETTING_FILE が存在しません" >&2
+  exit 1
+fi
+
 set -e
+
+# 設定ファイルのコピー
+cp $SETTING_FILE $PROJECT_ROOT/image-job/cassys/ansible/host_vars/${ARCH}.yml
+
 cd $PROJECT_ROOT
 
 # docker build

@@ -1,0 +1,11 @@
+---
+mnt_bucket: "MY_BUCKET_NAME"  # マウントするS3バケット名
+aws_credential:  # s3をマウントするためのAWS認証情報
+  aws_accesskey_id: "xxxxxxxxxxxxxxxxxxxx"
+  aws_secret_accesskey: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+smb:  # sambaサーバの設定
+  user: "cassys"  # sambaサーバに接続するユーザ名
+  password: "xxxxxxxx"  # sambaサーバに接続するスワード
+dhcpcd:
+  ip: "192.168.50.110/24"  # ラズベリーパイのIPアドレス
+  router_ip: "192.168.50.1"  # ラズベリーパイが参加するネットワークのIPアドレス
