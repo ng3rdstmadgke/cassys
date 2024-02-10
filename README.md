@@ -4,6 +4,8 @@ Cloud Attach Storage System
 
 S3をバックエンドにもつファイルサーバー機能を有した RaspberryPi OS を生成するコマンドラインツールです。
 
+<img src="docs/drawio/architecture.drawio.png" width="700px">
+
 # ■ 使い方
 
 ## 1.前準備
