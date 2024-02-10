@@ -16,7 +16,7 @@ FROM ubuntu:jammy
 RUN apt update -y && \
   apt-get install -y \
   kpartx gdisk qemu-user-static gcc \
-  unzip wget curl sudo less vim tmux python3-pip && \
+  unzip wget curl sudo less vim tmux python3-pip bash-completion && \
   rm -rf /var/lib/apt/lists/*
 
 RUN pip install -U pip && pip install ansible~=8.4.0 pexpect~=4.8.0
