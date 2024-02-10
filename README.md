@@ -33,6 +33,13 @@ docker ps
 1. `AmazonS3FullAccess` ポリシーを持つIAMユーザーを作成します。
 1. 作成したIAMユーザーでアクセスキーを発行します。
 
+### # リポジトリのクローン
+
+```bash
+git clone https://github.com/ng3rdstmadgke/cassys.git
+
+cd cassys
+```
 
 ## 2. 設定ファイルの準備
 
@@ -74,6 +81,7 @@ OSは64bit, 32bitから選択できます。
 
 ```bash
 # イメージ生成
+# 30分程かかります
 ./bin/build.sh arm64 setting/my-setting.yml
 
 # 出来上がったイメージ
@@ -84,6 +92,7 @@ ls .build/output-arm-image/arm64_cassys.img.xz
 
 ```bash
 # イメージ生成
+# 30分程かかります
 ./bin/build.sh armhf setting/my-setting.yml
 
 # 完成したイメージ
